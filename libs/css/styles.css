@@ -1,0 +1,271 @@
+body,
+html {
+	overflow: hidden;
+}
+
+/* Map dimensions */
+#map {
+	height: 100vh;
+	width: 100%;
+}
+
+#searchContainer {
+	position: absolute;
+	z-index: 999;
+	height: 40px;
+	background-color: transparent;
+	border: transparent;
+	max-width: 70%;
+}
+
+select {
+	border-radius: 5px;
+}
+
+.leaflet-top,
+.leaflet-right {
+	right: 10px;
+}
+
+.leaflet-bar button {
+	height: 40px !important;
+	width: 40px !important;
+	padding-top: 6px;
+	box-shadow: none;
+}
+
+.leaflet-control-layers-toggle {
+	height: 40px !important;
+	width: 40px !important;
+	padding-top: 6px;
+}
+
+#weatherBtn {
+	background-color: #fff3cd;
+}
+
+#countryDataBtn {
+	background-color: #cfe2ff;
+}
+
+#currencyBtn {
+	background-color: #d1e7dd;
+}
+
+#newsBtn {
+	background-color: #f8d7da;
+}
+
+#wikiBtn {
+	background-color: #cff4fc;
+}
+
+#poiBtn {
+	background-color: #b3ffb3;
+}
+
+#citiesBtn {
+	background-color: #ffc299;
+}
+
+#covidBtn {
+	background-color: #e6ccff;
+}
+
+#countryData .modal-footer {
+	background-color: #cfe2ff;
+}
+
+#weatherData .modal-body {
+	background-color: #fff3cd;
+}
+
+#weatherData .modal-footer {
+	background-color: #fff3cd;
+}
+
+#currencyData .modal-body {
+	background-color: #d1e7dd;
+}
+
+#currencyData .modal-footer {
+	background-color: #d1e7dd;
+}
+
+#newsData .modal-body {
+	background-color: #f8d7da;
+}
+
+#newsData .modal-footer {
+	background-color: #f8d7da;
+}
+
+#wikiData .modal-body {
+	background-color: #cff4fc;
+}
+
+#wikiData .modal-footer {
+	background-color: #cff4fc;
+}
+
+#covidData .modal-body {
+	background-color: #e6ccff;
+}
+
+#covidData .modal-footer {
+	background-color: #e6ccff;
+}
+
+#flag {
+	width: 150px;
+	height: 75px;
+	z-index: 999;
+	position: relative;
+}
+
+#covidData h4 {
+	text-align: center;
+	font-weight: bold;
+}
+
+.news-data {
+	font-weight: bold;
+}
+
+th,
+p .country-head {
+	text-align: center;
+}
+
+/* Marker popup styling */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	text-align: center;
+}
+
+.leaflet-popup-content h5 {
+	font-size: 15px;
+}
+
+.leaflet-popup-content h6 {
+	font-size: 12px;
+}
+
+/* User location circle color and fill */
+.leaflet-interactive {
+	stroke: rgb(255, 51, 51);
+	fill: rgb(251, 255, 0);
+}
+
+a {
+	text-decoration: none;
+}
+
+/* Change color of links on mouseover */
+a:hover {
+	color: green;
+}
+
+/* Remove inital dropdown select icon */
+select#countrySearch {
+	-o-appearance: none;
+	-ms-appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+/* Add dropdown icon for all select tags */
+select.dropdown {
+	background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+		linear-gradient(135deg, gray 50%, transparent 50%),
+		linear-gradient(to right, #ccc, #ccc);
+	background-position: calc(100% - 20px) calc(1em + 2px),
+		calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+	background-size: 5px 5px, 5px 5px, 1px 1.5em;
+	background-repeat: no-repeat;
+}
+
+select.dropdown:focus {
+	background-image: linear-gradient(45deg, green 50%, transparent 50%),
+		linear-gradient(135deg, transparent 50%, green 50%),
+		linear-gradient(to right, #ccc, #ccc);
+	background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em,
+		calc(100% - 2.5em) 0.5em;
+	background-size: 5px 5px, 5px 5px, 1px 1.5em;
+	background-repeat: no-repeat;
+	border-color: green;
+	outline: 0;
+}
+
+select:-moz-focusring {
+	color: transparent;
+	text-shadow: 0 0 0 #000;
+}
+
+img#weatherIcon {
+	width: 65px;
+	height: 65px;
+}
+
+.sun {
+	width: 21.33px;
+	height: 21.33px;
+}
+
+/* Country select dropdown scrollbar styling */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px grey;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #0d6efd;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #b30000;
+}
+
+/* Select options and placeholder font weight */
+select:valid {
+	font-weight: bold;
+}
+
+#countrySearch option {
+	font-weight: bold;
+}
+
+/* Preloader styling */
+.preloader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 100%;
+	height: 100vh;
+	z-index: 99999999;
+	background-image: url('../images/preloader.gif'); /* your icon gif file path */
+	background-repeat: no-repeat;
+	background-color: white;
+	background-position: center;
+}
+
+/* Preloader */
+#stop-scrolling {
+	height: 100% !important;
+	overflow: hidden !important;
+}
+
+/* Media query for map zoom buttons */
+@media only screen and (max-width: 300px) {
+	.leaflet-control-zoom.leaflet-bar.leaflet-control {
+		margin-bottom: 100px;
+	}
+}

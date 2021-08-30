@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="libs/images/favicon.png" />
+		<link rel="stylesheet" href="libs/css/bootstrap/dist/css/bootstrap.css" />
+		<link rel="stylesheet" href="libs/css/fontawesome/css/all.css" />
+		<link rel="stylesheet" href="libs/leaflet/dist/leaflet.css" />
+		<link
+			rel="stylesheet"
+			href="libs/leaflet/leaflet-easybutton/src/easy-button.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="libs/leaflet/leaflet.markercluster/dist/MarkerCluster.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="libs/leaflet/leaflet.markercluster/dist/MarkerCluster.Default.css"
+		/>
+		<link rel="stylesheet" href="libs/css/styles.css" />
+		<title>Gazetteer</title>
+	</head>
+	<body id="stop-scrolling">
+		<!-- Pre Loader -->
+		<div class="preloader"></div>
+
+		<main>
+			<div class="row">
+				<div class="col-md-12">
+					<div id="searchContainer" class="row m-3">
+						<select name="country" id="countrySearch" class="dropdown"></select>
+					</div>
+
+					<div>
+						<div id="map"></div>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<!-- Country Data Modal -->
+		<div class="modal fade" id="countryData" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content rounded-3">
+					<div class="modal-header text-center bg-primary">
+						<h5 class="modal-title w-100 text-white" id="exampleModalLabel">
+							<b>Country Information</b>
+						</h5>
+					</div>
+					<div class="modal-body">
+						<table class="table table-striped text-center align-middle">
+							<tbody>
+								<tr class="table-primary w-100">
+									<td class="country-head" colspan="2">
+										<h2 id="country"></h2>
+									</td>
+									<td class="country-head" colspan="2">
+										<img id="flag" alt="flag" />
+									</td>
+								</tr>
+								<tr class="table-success">
+									<th scope="row">Capital City</th>
+									<td colspan="2"></td>
+									<td id="capital"></td>
+								</tr>
+								<tr class="table-primary">
+									<th scope="row">Population</th>
+									<td colspan="2"></td>
+									<td id="population"></td>
+								</tr>
+								<tr class="table-success">
+									<th scope="row">Lat/Lng</th>
+									<td colspan="2"></td>
+									<td id="latlng"></td>
+								</tr>
+								<tr class="table-primary">
+									<th scope="row">Currency</th>
+									<td colspan="2"></td>
+									<td id="currency"></td>
+								</tr>
+								<tr class="table-success">
+									<th scope="row">Region</th>
+									<td colspan="2"></td>
+									<td id="region"></td>
+								</tr>
+								<tr class="table-primary">
+									<th scope="row">Sub-Region</th>
+									<td colspan="2"></td>
+									<td id="subRegion"></td>
+								</tr>
+								<tr class="table-success">
+									<th scope="row">Language</th>
+									<td colspan="2"></td>
+									<td id="language"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							<i class="fas fa-window-close"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Weather Data Modal -->
+		<div class="modal fade" id="weatherData" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content rounded-3">
+					<div class="modal-header text-center bg-primary">
+						<h5 class="modal-title w-100 text-white" id="exampleModalLabel">
+							<b>Weather</b>
+						</h5>
+					</div>
+					<div class="modal-body text-center">
+						<table class="table table-borderless">
+							<tbody>
+								<tr>
+									<td colspan="2">
+										<h3 class="w-100">
+											<b><span id="weatherLocation"></span></b>
+										</h3>
+									</td>
+								</tr>
+								<tr>
+									<td class="w-100">
+										<img id="weatherIcon" alt="weather" />
+										<br />
+										<b><span id="description"></span></b>
+										<hr />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h6>Temperature:</h6>
+										&nbsp;&nbsp;
+										<i class="fas fa-thermometer-three-quarters fa-lg"></i>
+										<b><span id="temp"></span></b>
+										<hr />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h6>Min/Max:</h6>
+										&nbsp;&nbsp;
+										<i class="fas fa-temperature-low fa-lg"></i>
+										<b><span id="minTemp"></span></b>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<i class="fas fa-temperature-high fa-lg"></i>
+										<b><span id="maxTemp"></span></b>
+										<hr />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h6>Wind Speed:</h6>
+										&nbsp;&nbsp;
+										<i class="fas fa-wind fa-lg"></i>
+										<b><span id="wind"></span></b>
+										<hr />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h6>Sunrise/Sunset:</h6>
+										&nbsp;&nbsp;
+										<span
+											class="iconify sun"
+											data-icon="bi-sunrise-fill"
+											data-inline="false"
+										></span>
+										<b><span id="sunrise"></span></b>
+										&nbsp;&nbsp;&nbsp;&nbsp;
+										<span
+											class="iconify sun"
+											data-icon="bi-sunset-fill"
+											data-inline="false"
+										></span>
+										<b><span id="sunset"></span></b>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							<i class="fas fa-window-close"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Currency Exchange Data Modal -->
+		<div class="modal fade" id="currencyData" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content rounded-3">
+					<div class="modal-header text-center bg-primary">
+						<h5 class="modal-title w-100 text-white" id="exampleModalLabel">
+							<b>Exchange Rates</b>
+						</h5>
+					</div>
+					<div class="modal-body">
+						<div class="row justify-content-center">
+							<select
+								class="
+									dropdown
+									currency-list
+									form-control
+									col-10
+									d-flex
+									align-items-center
+									m-3
+									w-75
+								"
+								id="currencyFrom"
+							></select>
+							<input
+								id="inputFrom"
+								class="form-control col-10 d-flex align-items-center m-3 w-75"
+								type="number"
+								placeholder="1.00"
+							/>
+							<div class="text-center">
+								<i class="fas fa-exchange-alt fa-rotate-90 fa-2x"></i>
+							</div>
+							<select
+								class="
+									dropdown
+									currency-list
+									form-control
+									col-10
+									d-flex
+									align-items-center
+									m-3
+									w-75
+								"
+								id="currencyTo"
+							></select>
+							<input
+								id="inputTo"
+								class="form-control col-10 d-flex align-items-center m-3 w-75"
+								placeholder="1.00"
+							/>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							<i class="fas fa-window-close"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- News Data Modal -->
+		<div class="modal fade" id="newsData" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content rounded-3">
+					<div class="modal-header text-center bg-primary">
+						<h5 class="modal-title w-100 text-white" id="exampleModalLabel">
+							<b>News</b>
+						</h5>
+					</div>
+					<div class="modal-body">
+						<div
+							id="carouselIndicators"
+							class="carousel slide"
+							data-bs-ride="carousel"
+						>
+							<div class="carousel-inner text-center w-100">
+								<div class="carousel-item active">
+									<h5 id="newsItem1"></h5>
+									<br />
+									<hr />
+									<p id="description1"></p>
+									<hr />
+									<a id="newsLink1" href="" target="_blank"
+										><span id="author1"></span
+									></a>
+								</div>
+								<div class="carousel-item">
+									<h5 id="newsItem2"></h5>
+									<br />
+									<hr />
+									<p id="description2"></p>
+									<hr />
+									<a id="newsLink2" href="" target="_blank"
+										><span id="author2"></span
+									></a>
+								</div>
+								<div class="carousel-item">
+									<h5 id="newsItem3"></h5>
+									<br />
+									<hr />
+									<p id="description3"></p>
+									<hr />
+									<a id="newsLink3" href="" target="_blank"
+										><span id="author3"></span
+									></a>
+								</div>
+								<div class="carousel-item">
+									<h5 id="newsItem4"></h5>
+									<br />
+									<hr />
+									<p id="description4"></p>
+									<hr />
+									<a id="newsLink4" href="" target="_blank"
+										><span id="author4"></span
+									></a>
+								</div>
+								<div class="carousel-item">
+									<h5 id="newsItem5"></h5>
+									<br />
+									<hr />
+									<p id="description5"></p>
+									<hr />
+									<a id="newsLink5" href="" target="_blank"
+										><span id="author5"></span
+									></a>
+								</div>
+							</div>
+							<button
+								class="carousel-control-prev"
+								type="button"
+								data-bs-target="#carouselIndicators"
+								data-bs-slide="prev"
+							>
+								<span
+									class="carousel-control-prev-icon"
+									aria-hidden="true"
+								></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button
+								class="carousel-control-next"
+								type="button"
+								data-bs-target="#carouselIndicators"
+								data-bs-slide="next"
+							>
+								<span
+									class="carousel-control-next-icon"
+									aria-hidden="true"
+								></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							<i class="fas fa-window-close"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Wikipedia Data Modal -->
+		<div class="modal fade" id="wikiData" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content rounded-3">
+					<div class="modal-header text-center bg-primary">
+						<h5 class="modal-title w-100 text-white" id="exampleModalLabel">
+							<b>Wikipedia</b>
+						</h5>
+					</div>
+					<div class="modal-body">
+						<table class="table align-middle">
+							<tbody>
+								<tr>
+									<th scope="row"></th>
+									<td colspan="2"><h4>Summary</h4></td>
+								</tr>
+								<tr>
+									<th scope="row"></th>
+									<td><p id="summary"></p></td>
+								</tr>
+								<tr>
+									<th scope="row"></th>
+									<td colspan="2">
+										<a id="wikiLink" href="" target="_blank">Read More</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							<i class="fas fa-window-close"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Covid Data Modal -->
+		<div class="modal fade" id="covidData" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content rounded-3">
+					<div class="modal-header text-center bg-primary">
+						<h5 class="modal-title w-100 text-white" id="exampleModalLabel">
+							<b>Covid Data</b>
+						</h5>
+					</div>
+					<div class="modal-body">
+						<table class="table table-striped table-borderless align-middle">
+							<tbody>
+								<h4 id="covidCountry"></h4>
+								<hr />
+								<tr>
+									<th scope="row">New Cases</th>
+									<td colspan="1"></td>
+									<td id="newCases"></td>
+								</tr>
+								<tr>
+									<th scope="row">Deaths Today</th>
+									<td colspan="1"></td>
+									<td id="todayDeaths"></td>
+								</tr>
+								<tr>
+									<th scope="row">No. of Tests</th>
+									<td colspan="1"></td>
+									<td id="tests"></td>
+								</tr>
+								<tr>
+									<th scope="row">Active Cases</th>
+									<td colspan="1"></td>
+									<td id="active"></td>
+								</tr>
+								<tr>
+									<th scope="row">Critical Cases</th>
+									<td colspan="1"></td>
+									<td id="critical"></td>
+								</tr>
+								<tr>
+									<th scope="row">Total Cases</th>
+									<td colspan="1"></td>
+									<td id="totalCases"></td>
+								</tr>
+								<tr>
+									<th scope="row">Total Recovered</th>
+									<td colspan="1"></td>
+									<td id="recovered"></td>
+								</tr>
+								<tr>
+									<th scope="row">Total Deaths</th>
+									<td colspan="1"></td>
+									<td id="deaths"></td>
+								</tr>
+							</tbody>
+						</table>
+						<hr />
+					</div>
+
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-bs-dismiss="modal"
+						>
+							<i class="fas fa-window-close"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="libs/js/jquery/dist/jquery.min.js"></script>
+		<script src="libs/css/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="libs/css/fontawesome/js/all.js"></script>
+		<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+		<script src="libs/leaflet/dist/leaflet.js"></script>
+		<script src="libs/leaflet/leaflet-easybutton/src/easy-button.js"></script>
+		<script src="libs/leaflet/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+		<script src="libs/js/script.js"></script>
+	</body>
+</html>
